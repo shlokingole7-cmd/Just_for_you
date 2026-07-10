@@ -12,24 +12,27 @@ padding: 0;
 box-sizing: border-box;
 }
 
+html, body {
+width: 100%;
+height: 100%;
+}
+
 body {
 font-family: 'Poppins', sans-serif;
 background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 25%, #312e81 50%, #111827 100%);
 background-attachment: fixed;
 min-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 20px;
+overflow-x: hidden;
+padding: 20px 0;
 }
 
 .container {
 background: rgba(255, 255, 255, 0.1);
 backdrop-filter: blur(10px);
 border-radius: 20px;
-padding: 40px;
+padding: 40px 20px;
 max-width: 600px;
-width: 100%;
+margin: 20px auto;
 color: white;
 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
@@ -66,7 +69,7 @@ border-top: 1px solid rgba(255, 255, 255, 0.2);
 
 @media (max-width: 500px) {
 .container {
-padding: 25px;
+padding: 25px 15px;
 }
 p {
 font-size: 16px;
@@ -95,7 +98,11 @@ font-size: 16px;
 
 <script>
 function showMsg() {
-document.getElementById('message').style.display = 'block';
+var msg = document.getElementById('message');
+msg.style.display = 'block';
+setTimeout(function() {
+msg.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+}, 100);
 }
 </script>
 
