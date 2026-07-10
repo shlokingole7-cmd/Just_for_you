@@ -26,6 +26,17 @@ overflow-x: hidden;
 padding: 20px 0;
 }
 
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
 .container {
 background: rgba(255, 255, 255, 0.1);
 backdrop-filter: blur(10px);
@@ -35,6 +46,7 @@ max-width: 600px;
 margin: 20px auto;
 color: white;
 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+animation: fadeIn 0.8s ease-out;
 }
 
 p {
@@ -42,7 +54,14 @@ font-size: 18px;
 line-height: 1.6;
 margin-bottom: 20px;
 opacity: 0.95;
+animation: fadeIn 0.8s ease-out forwards;
 }
+
+p:nth-child(1) { animation-delay: 0.1s; }
+p:nth-child(2) { animation-delay: 0.2s; }
+p:nth-child(3) { animation-delay: 0.3s; }
+p:nth-child(4) { animation-delay: 0.4s; }
+p:nth-child(5) { animation-delay: 0.5s; }
 
 button {
 background: #ff4d6d;
@@ -54,17 +73,52 @@ font-size: 16px;
 cursor: pointer;
 margin-top: 20px;
 font-weight: 600;
-transition: background 0.3s;
+transition: all 0.3s ease;
+animation: fadeIn 0.8s ease-out 0.6s forwards;
+opacity: 0;
 }
 
 button:hover {
 background: #ff2e52;
+transform: scale(1.05);
+box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
 }
 
 #message {
 margin-top: 30px;
 padding-top: 30px;
 border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.msg-item {
+animation: fadeIn 0.6s ease-out forwards;
+opacity: 0;
+}
+
+.msg-item:nth-child(1) { animation-delay: 0.1s; }
+.msg-item:nth-child(2) { animation-delay: 0.2s; }
+.msg-item:nth-child(3) { animation-delay: 0.3s; }
+.msg-item:nth-child(4) { animation-delay: 0.4s; }
+
+.cat-float {
+position: fixed;
+font-size: 32px;
+pointer-events: none;
+animation: float-up 4s ease-in forwards;
+}
+
+@keyframes float-up {
+0% {
+opacity: 1;
+transform: translateY(0) translateX(0) scale(1) rotateZ(0deg);
+}
+50% {
+transform: translateY(-50px) translateX(var(--tx)) scale(1.1) rotateZ(10deg);
+}
+100% {
+opacity: 0;
+transform: translateY(-150px) translateX(var(--tx)) scale(0.5) rotateZ(-20deg);
+}
 }
 
 @media (max-width: 500px) {
@@ -89,20 +143,37 @@ font-size: 16px;
 <button onclick="showMsg()">Click Here 🌸</button>
 
 <div id="message" style="display:none;">
-<p>I'll still be here, cheering for your smile, because seeing you happy will always make my day better.</p>
-<p>So for now...</p>
-<p>Here's a tiny reminder from your annoying boyfriend:</p>
-<p style="font-size:20px; font-weight:bold; margin:20px 0;">You're special to me, you're loved, and no matter what kind of day you're having, I'll always be wishing for your happiness. ❤️</p>
+<p class="msg-item">I'll still be here, cheering for your smile, because seeing you happy will always make my day better.</p>
+<p class="msg-item">So for now...</p>
+<p class="msg-item">Here's a tiny reminder from your annoying boyfriend:</p>
+<p class="msg-item" style="font-size:20px; font-weight:bold; margin:20px 0;">You're special to me, you're loved, and no matter what kind of day you're having, I'll always be wishing for your happiness. ❤️</p>
 </div>
 </div>
 
 <script>
+const catEmojis = ['🐱', '😺', '😸', '😻', '😼', '😽', '🐈'];
+
 function showMsg() {
 var msg = document.getElementById('message');
 msg.style.display = 'block';
+createCats();
 setTimeout(function() {
 msg.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 }, 100);
+}
+
+function createCats() {
+for(let i = 0; i < 8; i++) {
+setTimeout(function() {
+const cat = document.createElement('div');
+cat.classList.add('cat-float');
+cat.innerHTML = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+cat.style.left = Math.random() * 100 + 'vw';
+cat.style.setProperty('--tx', (Math.random() - 0.5) * 80 + 'px');
+document.body.appendChild(cat);
+setTimeout(() => cat.remove(), 4000);
+}, i * 150);
+}
 }
 </script>
 
